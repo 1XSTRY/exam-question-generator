@@ -15,7 +15,7 @@ public class ExaminerServiceImpl implements ExaminerService {
     @Override
     public List<Question> getQuestions(int amount) {
         if (amount > questionService.getAllQuestions().size()) {
-            throw new IllegalArgumentException("Requested amount exceeds the total number of questions.");
+            throw new IllegalArgumentException("Requested amount exceeds the totаl number of questions.");
         }
 
         Set<Question> selectedQuestions = new HashSet<>();
