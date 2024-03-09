@@ -1,59 +1,83 @@
 package pro.sky.exam.question.generator;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import pro.sky.exam.question.service.JavaQuestionService;
+import model.Question;
+import pro.sky.exam.question.service.QuestionRepository;
 
-import java.util.Arrays;
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class JavaQuestionServiceTest {
 
     @InjectMocks
     private JavaQuestionService javaQuestionService;
 
+    @Mock
+    private QuestionRepository questionRepository;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
     void testGetRandomQuestion() {
-        // Подготовка данных для теста
-        Question question1 = new Question("Q1", "A1");
-        Question question2 = new Question("Q2", "A2");
-        javaQuestionService.addQuestion(question1);
-        javaQuestionService.addQuestion(question2);
+        javaQuestionService.addQuestion(new Question("Q1", "A1"));
+        javaQuestionService.addQuestion(new Question("Q2", "A2"));
 
-        // Тестирование
         Question randomQuestion = javaQuestionService.getRandomQuestion();
         assertNotNull(randomQuestion);
         assertTrue(javaQuestionService.getAllQuestions().contains(randomQuestion));
     }
 
-    // Другие тесты
-}
-
-class ExaminerServiceImplTest {
-
-    @Mock
-    private QuestionService questionService;
-
-    @InjectMocks
-    private ExaminerServiceImpl examinerService;
-
     @Test
-    void testGetQuestions() {
-        // Подготовка данных для теста
-        Question question1 = new Question("Q1", "A1");
-        Question question2 = new Question("Q2", "A2");
-        when(questionService.getAllQuestions()).thenReturn(Arrays.asList(question1, question2));
+    void testAddQuestion() {
+        Question question = new Question("Q1", "A1");
+        javaQuestionService.addQuestion(question);
 
-        // Тестирование
-        List<Question> selectedQuestions = examinerService.getQuestions(2);
-        assertNotNull(selectedQuestions);
-        assertEquals(2, selectedQuestions.size());
-        assertTrue(selectedQuestions.contains(question1));
-        assertTrue(selectedQuestions.contains(question2));
+        verify(questionRepository, times(1)).save(question);
+        List<Question> allQuestions = javaQuestionService.getAllQuestions();
+        assertNotNull(allQuestions);
+        assertEquals(1, allQuestions.size());
+        assertTrue(allQuestions.contains(question));
     }
 
-    // Другие тесты
+    @Test
+    void testRemoveQuestion() {
+        Question question = new Question("Q1", "A1");
+        javaQuestionService.addQuestion(question);
+
+        javaQuestionService.removeQuestion(question);
+
+        verify(questionRepository, times(1)).delete(question);
+        List<Question> allQuestions = javaQuestionService.getAllQuestions();
+        assertNotNull(allQuestions);
+        assertTrue(allQuestions.isEmpty());
+    }
+
+    @Test
+    void testFindQuestions() {
+        Question question1 = new Question("Java is a programming language", "Yes");
+        Question question2 = new Question("Spring Framework is written in Java", "Yes");
+        Question question3 = new Question("Python is a compiled language", "No");
+
+        javaQuestionService.addQuestion(question1);
+        javaQuestionService.addQuestion(question2);
+        javaQuestionService.addQuestion(question3);
+
+        List<Question> foundQuestions = javaQuestionService.findQuestions("Java");
+        assertNotNull(foundQuestions);
+        assertEquals(2, foundQuestions.size());
+        assertTrue(foundQuestions.contains(question1));
+        assertTrue(foundQuestions.contains(question2));
+        assertFalse(foundQuestions.contains(question3));
+    }
 }

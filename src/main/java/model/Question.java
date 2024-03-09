@@ -1,4 +1,4 @@
-package pro.sky.exam.question.generator;
+package model;
 
 public class Question {
     private String question;
