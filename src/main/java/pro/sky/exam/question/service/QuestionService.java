@@ -10,4 +10,5 @@ public interface QuestionService {
     void addQuestion(Question question);
     void removeQuestion(Question question);
     List<Question> findQuestions(String searchTerm);
+    int getTotalQuestions();
 }

@@ -50,5 +50,11 @@ public class JavaQuestionService implements QuestionService {
             }
         }
         return foundQuestions;
+
+
+    }
+    @Override
+    public int getTotalQuestions() {
+        return javaQuestions.size();
     }
 }
