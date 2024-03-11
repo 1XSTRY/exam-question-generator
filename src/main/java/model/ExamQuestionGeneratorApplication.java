@@ -1,4 +1,4 @@
-package pro.sky.exam.question.generator;
+package model;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,7 @@ public class ExamQuestionGeneratorApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ExamQuestionGeneratorApplication.class, args);
 	}
+
+
 
 }

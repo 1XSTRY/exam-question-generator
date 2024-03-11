@@ -1,4 +1,6 @@
-package pro.sky.exam.question.generator;
+package pro.sky.exam.question.service;
+
+import model.Question;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,7 +17,7 @@ public class ExaminerServiceImpl implements ExaminerService {
     @Override
     public List<Question> getQuestions(int amount) {
         if (amount > questionService.getAllQuestions().size()) {
-            throw new IllegalArgumentException("Requested amount exceeds the total number of questions.");
+            throw new IllegalArgumentException("Requested amount exceeds the totаl number of questions.");
         }
 
         Set<Question> selectedQuestions = new HashSet<>();

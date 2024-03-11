@@ -1,10 +1,12 @@
-package pro.sky.exam.question.generator;
+package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pro.sky.exam.question.service.ExaminerService;
+import model.Question;
 
 import java.util.List;
 
